@@ -1,50 +1,183 @@
-<script>
-const chat = document.getElementById('chat');
-const form = document.getElementById('form');
-const mealInput = document.getElementById('meal');
-const goalSelect = document.getElementById('goal');
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Nibble Mate</title>
+  <meta name="description" content="Your playful nutrition buddy — Nibble Mate helps you stay balanced and positive.">
+  <link rel="icon" href="assets/favicon.png">
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* --- minimal inline base so it looks sleek --- */
+    :root {
+      --bg: #fafafa;
+      --card: #ffffff;
+      --ink: #111111;
+      --line: #e7e7e7;
+      --brand: #0f0f0f;
+      --accent: #4ADE80;
+    }
+    body {
+      margin: 0;
+      font-family: "Inter", system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+    }
+    header {
+      background: var(--card);
+      border-bottom: 1px solid var(--line);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    .header-inner {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1rem 2rem; max-width: 1100px; margin: 0 auto;
+    }
+    .brand { display: flex; align-items: center; gap: .5rem; text-decoration: none; color: inherit; font-weight: 700; }
+    .brand img { height: 32px; }
+    nav ul { list-style: none; display: flex; gap: 1rem; margin: 0; padding: 0; }
+    nav a { text-decoration: none; color: inherit; font-weight: 500; }
+    nav a:hover { color: var(--accent); }
+    main { padding: 3rem 1rem; max-width: 900px; margin: 0 auto; }
+    .hero { text-align: center; padding: 3rem 1rem; }
+    .hero h1 { font-size: 2rem; margin-bottom: 1rem; }
+    .hero p { color: #555; max-width: 600px; margin: 0 auto 1.5rem; }
+    .btn { display: inline-block; padding: .75rem 1.25rem; border-radius: 10px; font-weight: 600; text-decoration: none; border: none; cursor: pointer; }
+    .btn-primary { background: var(--brand); color: #fff; }
+    .btn-primary:hover { background: #333; }
+    .section { margin: 3rem 0; }
+    .chat { border: 1px solid var(--line); background: var(--card); border-radius: 16px; padding: 1rem; height: 300px; overflow-y: auto; margin-bottom: 1rem; }
+    .msg { margin: .5rem 0; line-height: 1.4; }
+    .msg.you { text-align: right; font-weight: 600; color: var(--brand); }
+    .msg.coach { background: #f3f4f6; padding: .5rem .75rem; border-radius: 12px; display: inline-block; max-width: 80%; }
+    form { display: flex; gap: .5rem; }
+    input, select { flex: 1; padding: .6rem; border-radius: 10px; border: 1px solid var(--line); font-size: 1rem; }
+    footer { text-align: center; color: #777; padding: 2rem 1rem; border-top: 1px solid var(--line); font-size: .9rem; }
+    @media (max-width:600px) {
+      nav ul { flex-wrap: wrap; justify-content: center; }
+      form { flex-direction: column; }
+    }
+  </style>
+</head>
 
-// Helper: random choice
-function pick(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+<body>
+  <header>
+    <div class="header-inner">
+      <a href="#" class="brand">
+        <img src="assets/logo.svg" alt="">
+        <span>Nibble Mate</span>
+      </a>
+      <nav>
+        <ul>
+          <li><a href="#demo">Try It</a></li>
+          <li><a href="#about">About</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
 
-// Mini vocabulary so it sounds dynamic
-const openings = [
-  "Nice choice!",
-  "That sounds good!",
-  "Yum — that meal sounds delicious!",
-  "Cool pick!",
-  "Love that combo!"
-];
+  <main>
+    <section class="hero" id="about">
+      <h1>Welcome to Nibble Mate 🥗</h1>
+      <p>Your chill, judgment-free buddy that helps you make smarter, balanced food choices — no calorie counting, no guilt, just fun guidance.</p>
+      <a href="#demo" class="btn btn-primary">Chat with your Coach</a>
+    </section>
 
-const encouragements = [
-  "You’re doing great — keep it up!",
-  "Small steps add up.",
-  "Consistency beats perfection!",
-  "Good on you for logging your meals.",
-  "I like how mindful you’re being!"
-];
+    <section id="demo" class="section">
+      <h2 style="text-align:center;">🥦 Try the Nibble Mate Coach</h2>
+      <p style="text-align:center; color:#555;">Type what you ate and get an instant, fun response — powered by simple logic (no internet or API needed!)</p>
+      <div class="chat" id="chat">
+        <div class="msg coach">Yo! I'm Nibble Mate 😎 Tell me what you ate today!</div>
+      </div>
 
-function localAI(meal, goal) {
-  meal = meal.toLowerCase();
-  const parts = [];
+      <form id="form">
+        <input type="text" id="meal" placeholder="e.g., 2 slices of pizza and soda" required>
+        <select id="goal">
+          <option value="energize">Energize ⚡</option>
+          <option value="lean">Lean 💪</option>
+          <option value="build">Build 🏗️</option>
+        </select>
+        <button type="submit" class="btn btn-primary">Send</button>
+      </form>
+    </section>
+  </main>
 
-  // Start friendly
-  parts.push(pick(openings));
+  <footer>
+    <p>Built with ❤️ by Nibble Mate Team · Works offline · No data leaves your browser</p>
+  </footer>
 
-  // Protein check
-  if (/(chicken|egg|tofu|fish|beans|yogurt|paneer|lentil|nuts)/.test(meal))
-    parts.push("Nice protein source — helps you stay full and recover.");
-  else
-    parts.push("Consider adding some protein like eggs, yogurt, or beans to stay fuller longer.");
+  <!-- fun local “AI” script -->
+  <script>
+    const chat = document.getElementById('chat');
+    const form = document.getElementById('form');
+    const mealInput = document.getElementById('meal');
+    const goalSelect = document.getElementById('goal');
 
-  // Fiber check
-  if (/(veg|salad|fruit|apple|banana|oats|quinoa|broccoli|spinach|rice)/.test(meal))
-    parts.push("Good fiber and plants — steady energy incoming!");
-  else
-    parts.push("A fruit or veggie would boost fiber and balance that out.");
+    function pick(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
 
-  // Sugar check
-  if (/(cake|soda|cola|dessert|candy|cookie|ice cream|juice)/.test(meal))
-    parts.push("A little sweet treat is fine — maybe pair it with some protein or fiber.");
+    const openings = [
+      "Good Job Brotato Chip!!",
+      "That sounds good!",
+      "Gimme some!",
+      "W pick bro!",
+      "W!"
+    ];
 
-  // Goal-specific
+    const encouragements = [
+      "You’re doing great — keep it up!",
+      "Small steps add up.",
+      "Consistency is key.",
+      "Goon on ya!",
+      "Keep going gngalang!"
+    ];
+
+    function localAI(meal, goal) {
+      meal = meal.toLowerCase();
+      const parts = [];
+
+      parts.push(pick(openings));
+
+      if (/(chicken|egg|tofu|fish|beans|yogurt|paneer|lentil|nuts)/.test(meal))
+        parts.push("Nice protein source — helps you stay full and recover.");
+      else
+        parts.push("Consider adding some protein like eggs, yogurt, or beans to stay fuller longer.");
+
+      if (/(veg|salad|fruit|apple|banana|oats|quinoa|broccoli|spinach|rice)/.test(meal))
+        parts.push("Good fiber and plants — steady energy incoming!");
+      else
+        parts.push("A fruit or veggie would boost fiber and balance that out.");
+
+      if (/(cake|soda|cola|dessert|candy|cookie|ice cream|juice)/.test(meal))
+        parts.push("A little sweet treat is fine — maybe pair it with some protein or fiber.");
+
+      if (goal === "energize") parts.push("⚡ Stay hydrated and balanced for steady energy!");
+      if (goal === "lean") parts.push("💪 Go lean: add veggies, skip refined carbs.");
+      if (goal === "build") parts.push("🏗️ Stack that muscle: aim for 25–35 g protein!");
+
+      parts.push(pick(encouragements));
+      return parts.join(" ");
+    }
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const meal = mealInput.value.trim();
+      const goal = goalSelect.value;
+      if (!meal) return;
+
+      const you = document.createElement('div');
+      you.className = 'msg you';
+      you.textContent = meal;
+      chat.appendChild(you);
+
+      const coach = document.createElement('div');
+      coach.className = 'msg coach';
+      coach.textContent = localAI(meal, goal);
+      chat.appendChild(coach);
+
+      chat.scrollTop = chat.scrollHeight;
+      mealInput.value = '';
+    });
+  </script>
+</body>
+</html>
