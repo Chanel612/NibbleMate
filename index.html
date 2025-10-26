@@ -1,199 +1,50 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Nibble Mate</title>
-  <meta name="description" content="A friendly, judgment‑free food coach. Simple tips, smarter choices.">
-  <link rel="icon" href="assets/favicon.png">
-  <link rel="stylesheet" href="styles.css" />
-</head>
-<body>
-  <header class="site-header">
-    <div class="container header-inner">
-      <a class="brand" href="#top" aria-label="NibbleMate Home">
-        <img src="assets/logo.svg" alt="" class="logo" />
-        <span class="brand-text">Nibble Mate</span>
-      </a>
-      <nav class="nav" aria-label="Main navigation">
-        <button class="nav-toggle" aria-expanded="false" aria-controls="nav-list" aria-label="Toggle menu">☰</button>
-        <ul id="nav-list" class="nav-list">
-          <li><a href="#how">How it Works</a></li>
-          <li><a href="#features">Features</a></li>
-          <li><a href="#demo">Try it</a></li>
-          <li><a href="#faq">FAQ</a></li>
-          <li><a href="#contact">Contact</a></li>
-        </ul>
-      </nav>
-    </div>
-  </header>
+<script>
+const chat = document.getElementById('chat');
+const form = document.getElementById('form');
+const mealInput = document.getElementById('meal');
+const goalSelect = document.getElementById('goal');
 
-  <main id="top">
-    <!-- Hero -->
-    <section class="hero">
-      <div class="container hero-inner">
-        <div class="hero-copy">
-          <h1>Nibble Mate is your friend whos only mission is to help you with your nutrition.</h1>
-          <p class="lead">Log a meal, get a kind nudge. No judgment, no calorie obsession — just simple guidance that helps you build better habits.</p>
-          <div class="cta-group">
-            <a class="btn btn-primary" href="#demo">Try the basic coach</a>
-            <a class="btn btn-ghost" href="#features">See features</a>
-          </div>
-          <p class="subtle">Private by default. Your entries are SAFE in your browser.</p>
-        </div>
-        <div class="hero-card">
-          <div class="phone-frame">
-            <div class="bubble coach">Try: “oatmeal with banana & walnuts”</div>
-            <div class="bubble you">chicken salad with olive oil and yogurt</div>
-            <div class="bubble coach">Nice balance! Protein + healthy fats. Add fruit for fiber.</div>
-          </div>
-        </div>
-      </div>
-    </section>
+// Helper: random choice
+function pick(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
 
-    <!-- How it works -->
-    <section id="how" class="section">
-      <div class="container grid two">
-        <div>
-          <h2>How it works</h2>
-          <ol class="steps">
-            <li><strong>Type a meal</strong> — keep it casual.</li>
-            <li><strong>Get tips</strong> — protein? fiber? sugar spikes?</li>
-            <li><strong>Build habits</strong> — consistency beats perfection.</li>
-          </ol>
-          <p class="muted">We start with simple on‑device rules. Later, you can switch on an AI mode for more personalized feedback.</p>
-        </div>
-        <div class="card">
-          <h3 class="card-title">Privacy‑first</h3>
-          <p>No account needed to try. Your demo logs are stored locally in your browser and can be cleared anytime.</p>
-          <button class="btn btn-outline" id="clear-storage">Clear local data</button>
-        </div>
-      </div>
-    </section>
+// Mini vocabulary so it sounds dynamic
+const openings = [
+  "Nice choice!",
+  "That sounds good!",
+  "Yum — that meal sounds delicious!",
+  "Cool pick!",
+  "Love that combo!"
+];
 
-    <!-- Features -->
-    <section id="features" class="section alt">
-      <div class="container">
-        <h2>What’s coming next</h2>
-        <div class="grid three">
-          <div class="feature-card">
-            <h3>AI Food Coach</h3>
-            <p>Contextual feedback based on your recent meals and goals.</p>
-          </div>
-          <div class="feature-card">
-            <h3>Mood ↔ Food</h3>
-            <p>Spot patterns between your meals, mood and energy.</p>
-          </div>
-          <div class="feature-card">
-            <h3>Photo logging</h3>
-            <p>Snap a plate, skip the typing. Quick and visual.</p>
-          </div>
-          <div class="feature-card">
-            <h3>Smart grocery</h3>
-            <p>Auto-generate a weekly list from your logs and goals.</p>
-          </div>
-          <div class="feature-card">
-            <h3>Sleep link</h3>
-            <p>Understand how timing and choices impact your sleep.</p>
-          </div>
-          <div class="feature-card">
-            <h3>Circles</h3>
-            <p>Private friend groups for encouragement—no public feeds.</p>
-          </div>
-        </div>
-      </div>
-    </section>
+const encouragements = [
+  "You’re doing great — keep it up!",
+  "Small steps add up.",
+  "Consistency beats perfection!",
+  "Good on you for logging your meals.",
+  "I like how mindful you’re being!"
+];
 
-    <!-- Demo (basic inline coach) -->
-    <section id="demo" class="section">
-      <div class="container">
-        <h2>Try the basic coach</h2>
-        <p class="muted">This quick demo gives friendly tips using simple rules. We’ll add AI later.</p>
-        <div class="demo">
-          <div id="chat" class="chat">
-            <div class="msg coach">Try typing: “2 slices of pizza and a soda”</div>
-          </div>
-          <form id="form" class="form">
-            <input type="text" id="meal" placeholder="What did you eat?" aria-label="Meal text" required />
-            <select id="goal" aria-label="Goal">
-              <option value="energize">Energize</option>
-              <option value="lean">Lean</option>
-              <option value="build">Build</option>
-            </select>
-            <button type="submit" class="btn btn-primary">Get advice</button>
-          </form>
-        </div>
-      </div>
-    </section>
+function localAI(meal, goal) {
+  meal = meal.toLowerCase();
+  const parts = [];
 
-    <!-- FAQ -->
-    <section id="faq" class="section alt">
-      <div class="container">
-        <h2>FAQ</h2>
-        <details>
-          <summary>Do I need an account?</summary>
-          <p>Nope. You can try the demo without signing up. If you create an account later, you can sync across devices.</p>
-        </details>
-        <details>
-          <summary>Is this safe for kids?</summary>
-          <p>Yes. The demo avoids calorie counting and focuses on balanced choices, hydration, and sleep. No weight targets for minors.</p>
-        </details>
-        <details>
-          <summary>Does it work offline?</summary>
-          <p>The demo works offline after the first load. Your entries are stored locally until you clear them.</p>
-        </details>
-      </div>
-    </section>
+  // Start friendly
+  parts.push(pick(openings));
 
-    <!-- Contact -->
-    <section id="contact" class="section">
-      <div class="container grid two">
-        <div>
-          <h2>Contact</h2>
-          <p class="muted">Questions or ideas? Send a note.</p>
-          <form id="contact-form" class="form">
-            <label>
-              <span>Name</span>
-              <input type="text" id="name" required />
-            </label>
-            <label>
-              <span>Email</span>
-              <input type="email" id="email" required />
-            </label>
-            <label>
-              <span>Message</span>
-              <textarea id="message" rows="4" required></textarea>
-            </label>
-            <button type="submit" class="btn btn-primary">Send</button>
-            <p id="contact-status" class="muted" role="status" aria-live="polite"></p>
-          </form>
-        </div>
-        <div class="card">
-          <h3 class="card-title">Roadmap</h3>
-          <ul class="roadmap">
-            <li>✅ Basic coach demo</li>
-            <li>🔜 AI coaching server</li>
-            <li>🔜 Photo logging</li>
-            <li>🔜 Mood ↔ Food insights</li>
-            <li>🔜 Smart grocery lists</li>
-          </ul>
-        </div>
-      </div>
-    </section>
-  </main>
+  // Protein check
+  if (/(chicken|egg|tofu|fish|beans|yogurt|paneer|lentil|nuts)/.test(meal))
+    parts.push("Nice protein source — helps you stay full and recover.");
+  else
+    parts.push("Consider adding some protein like eggs, yogurt, or beans to stay fuller longer.");
 
-  <footer class="site-footer">
-    <div class="container footer-inner">
-      <div class="left">
-        <img src="assets/logo.svg" class="logo small" alt="" />
-        <span>AI Food Coach</span>
-      </div>
-      <div class="right">
-        <a href="#top">Back to top</a>
-      </div>
-    </div>
-  </footer>
+  // Fiber check
+  if (/(veg|salad|fruit|apple|banana|oats|quinoa|broccoli|spinach|rice)/.test(meal))
+    parts.push("Good fiber and plants — steady energy incoming!");
+  else
+    parts.push("A fruit or veggie would boost fiber and balance that out.");
 
-  <script src="script.js"></script>
-</body>
-</html>
+  // Sugar check
+  if (/(cake|soda|cola|dessert|candy|cookie|ice cream|juice)/.test(meal))
+    parts.push("A little sweet treat is fine — maybe pair it with some protein or fiber.");
+
+  // Goal-specific
