@@ -1,127 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Nibble Mate – Your Offline AI Food Coach</title>
-  <meta name="description" content="A friendly, judgment-free nutrition coach that runs entirely in your browser using Transformers.js.">
-  <link rel="icon" href="assets/favicon.png">
+  <title>Nibble Mate</title>
+  <meta name="description" content="Friendly, judgment-free nutrition buddy." />
   <style>
-    :root { --bg:#fafafa; --card:#fff; --ink:#111; --line:#e5e5e5; --accent:#4ade80; }
-    *{box-sizing:border-box;}
-    body{margin:0;font-family:Inter,system-ui,sans-serif;background:var(--bg);color:var(--ink);}
-    header{background:var(--card);border-bottom:1px solid var(--line);padding:1rem 2rem;position:sticky;top:0;z-index:10;}
-    h1,h2{margin:0 0 .5rem;}
-    main{max-width:900px;margin:2rem auto;padding:0 1rem;}
-    .hero{text-align:center;margin:3rem 0;}
-    .hero p{color:#555;max-width:600px;margin:0 auto 1.5rem;}
-    .btn{background:var(--ink);color:#fff;border:none;border-radius:10px;padding:.75rem 1.25rem;font-weight:600;cursor:pointer;}
-    .chat{border:1px solid var(--line);background:var(--card);border-radius:16px;padding:1rem;height:340px;overflow-y:auto;margin-bottom:1rem;}
-    .msg{margin:.5rem 0;line-height:1.4;}
-    .msg.you{text-align:right;font-weight:600;color:var(--ink);}
-    .msg.coach{background:#f3f4f6;padding:.5rem .75rem;border-radius:12px;display:inline-block;max-width:80%;}
-    form{display:flex;gap:.5rem;}
-    input,select{flex:1;padding:.6rem;border:1px solid var(--line);border-radius:10px;font-size:1rem;}
-    footer{text-align:center;color:#777;padding:2rem 1rem;border-top:1px solid var(--line);font-size:.9rem;}
-    #loading{display:none;text-align:center;color:#888;font-style:italic;}
-    @media(max-width:600px){form{flex-direction:column;}}
+    /* minimal, readable */
+    :root { --bg:#0f1117; --ink:#e5e7eb; --muted:#9aa4b2; --line:#1f2430; --accent:#7cfc98; }
+    * { box-sizing: border-box; }
+    body { margin:0; font-family: system-ui, sans-serif; background: var(--bg); color: var(--ink); }
+    .wrap { max-width: 800px; margin: 0 auto; padding: 24px; }
+    header { padding: 16px 0; border-bottom: 1px solid var(--line); }
+    h1 { margin: 0 0 8px; font-size: 1.6rem; }
+    p { color: var(--muted); margin: 0.25rem 0 0; }
+    main { padding: 24px 0; }
+    section { background: #121826; border: 1px solid var(--line); border-radius: 12px; padding: 16px; }
+    footer { border-top: 1px solid var(--line); padding: 16px 0; color: var(--muted); font-size: .9rem; text-align: center; }
   </style>
 </head>
 <body>
-<header>
-  <h1>🥗 Nibble Mate</h1>
-  <p style="margin:0;color:#555;">Offline AI Food Coach (no keys, no servers)</p>
-</header>
+  <div class="wrap">
+    <header>
+      <h1>Nibble Mate</h1>
+      <p>Friendly nutrition, without the pressure.</p>
+    </header>
 
-<main>
-  <section class="hero">
-    <h2>Talk to your Nutrition Buddy 🤖</h2>
-    <p>Type what you ate and get an instant, AI-generated reply. All computation runs locally in your browser via
-      <strong>Transformers.js</strong> — no data leaves your device.</p>
-  </section>
+    <main>
+      <section>
+        <h2 style="margin:0 0 .5rem;">Need help?</h2>
+        <p>Use the floating chat bubble in the corner to talk with our assistant.</p>
+      </section>
+    </main>
 
-  <div class="chat" id="chat">
-    <div class="msg coach">Yo! I'm Nibble Mate 😎 Tell me what you ate today!</div>
+    <footer>
+      Built with ❤️ · Nibble Mate
+    </footer>
   </div>
-  <div id="loading">⏳ Loading AI model… first time can take ~20–60 MB</div>
 
-  <form id="form">
-    <input type="text" id="meal" placeholder="e.g., chicken salad with rice" required />
-    <select id="goal">
-      <option value="energize">Energize ⚡</option>
-      <option value="lean">Lean 💪</option>
-      <option value="build">Build 🏗️</option>
-    </select>
-    <button type="submit" class="btn">Send</button>
-  </form>
-</main>
-
-<footer>
-  <p>Runs fully client-side · powered by <a href="https://github.com/xenova/transformers.js" target="_blank">Transformers.js</a></p>
-</footer>
-
-<!-- Transformers.js local AI (no API key) -->
-<script type="module">
-  import { pipeline } from "https://cdn.jsdelivr.net/npm/@xenova/transformers@2.6.0";
-
-  const chat = document.getElementById("chat");
-  const form = document.getElementById("form");
-  const mealInput = document.getElementById("meal");
-  const goalSelect = document.getElementById("goal");
-  const loading = document.getElementById("loading");
-
-  loading.style.display = "block";
-  let generator;
-  try {
-    generator = await pipeline("text-generation", "Xenova/distilgpt2");
-  } catch (e) {
-    console.error(e);
-  } finally {
-    loading.style.display = "none";
-  }
-
-  async function generateAdvice(meal, goal) {
-    if (!generator) return "Hmm, my brain didn’t load. Try refreshing the page?";
-    const prompt = `You are Nibble Mate, a kind, funny food coach.
-User's goal: ${goal}.
-User says they ate: "${meal}".
-Reply with two short, friendly sentences of advice or encouragement. Avoid calorie counts; be supportive.`;
-    const out = await generator(prompt, { max_new_tokens: 60 });
-    const text = out?.[0]?.generated_text || "";
-    return text.split(prompt)[1]?.trim() || text.trim() || "Nice! Keep it balanced and hydrate. You’ve got this.";
-  }
-
-  form.addEventListener("submit", async (e) => {
-    e.preventDefault();
-    const meal = mealInput.value.trim();
-    const goal = goalSelect.value;
-    if (!meal) return;
-
-    const you = document.createElement("div");
-    you.className = "msg you";
-    you.textContent = meal;
-    chat.appendChild(you);
-    chat.scrollTop = chat.scrollHeight;
-    mealInput.value = "";
-
-    const coach = document.createElement("div");
-    coach.className = "msg coach";
-    coach.textContent = "Thinking 🤔…";
-    chat.appendChild(coach);
-    chat.scrollTop = chat.scrollHeight;
-
-    try {
-      const reply = await generateAdvice(meal, goal);
-      coach.textContent = reply || "Nice pick — add some protein/fiber and hydrate!";
-    } catch (err) {
-      console.error(err);
-      coach.textContent = "Model not ready yet or low memory 😅 Try again in a moment.";
-    }
-    chat.scrollTop = chat.scrollHeight;
-  });
-</script>
-
-<!-- Jotform Agent embed (added as requested) -->
-<script src="https://cdn.jotfor.ms/agent/embedjs/019a45e9f6b073cab55366256e8f3a4de392/embed.js"></script>
+  <!-- Jotform AI widget (only chatbot on the site) -->
+  <script src="https://cdn.jotfor.ms/agent/embedjs/019a45e9f6b073cab55366256e8f3a4de392/embed.js"></script>
+  <noscript>Please enable JavaScript to use the chat widget.</noscript>
 </body>
 </html>
