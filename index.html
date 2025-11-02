@@ -3,181 +3,125 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Nibble Mate</title>
-  <meta name="description" content="Your playful nutrition buddy — Nibble Mate helps you stay balanced and positive.">
+  <title>Nibble Mate – Your Offline AI Food Coach</title>
+  <meta name="description" content="A friendly, judgment-free nutrition coach that runs entirely in your browser using Transformers.js.">
   <link rel="icon" href="assets/favicon.png">
-  <link rel="stylesheet" href="styles.css" />
   <style>
-    /* --- minimal inline base so it looks sleek --- */
-    :root {
-      --bg: #fafafa;
-      --card: #ffffff;
-      --ink: #111111;
-      --line: #e7e7e7;
-      --brand: #0f0f0f;
-      --accent: #4ADE80;
-    }
-    body {
-      margin: 0;
-      font-family: "Inter", system-ui, sans-serif;
-      background: var(--bg);
-      color: var(--ink);
-    }
-    header {
-      background: var(--card);
-      border-bottom: 1px solid var(--line);
-      position: sticky;
-      top: 0;
-      z-index: 10;
-    }
-    .header-inner {
-      display: flex; justify-content: space-between; align-items: center;
-      padding: 1rem 2rem; max-width: 1100px; margin: 0 auto;
-    }
-    .brand { display: flex; align-items: center; gap: .5rem; text-decoration: none; color: inherit; font-weight: 700; }
-    .brand img { height: 32px; }
-    nav ul { list-style: none; display: flex; gap: 1rem; margin: 0; padding: 0; }
-    nav a { text-decoration: none; color: inherit; font-weight: 500; }
-    nav a:hover { color: var(--accent); }
-    main { padding: 3rem 1rem; max-width: 900px; margin: 0 auto; }
-    .hero { text-align: center; padding: 3rem 1rem; }
-    .hero h1 { font-size: 2rem; margin-bottom: 1rem; }
-    .hero p { color: #555; max-width: 600px; margin: 0 auto 1.5rem; }
-    .btn { display: inline-block; padding: .75rem 1.25rem; border-radius: 10px; font-weight: 600; text-decoration: none; border: none; cursor: pointer; }
-    .btn-primary { background: var(--brand); color: #fff; }
-    .btn-primary:hover { background: #333; }
-    .section { margin: 3rem 0; }
-    .chat { border: 1px solid var(--line); background: var(--card); border-radius: 16px; padding: 1rem; height: 300px; overflow-y: auto; margin-bottom: 1rem; }
-    .msg { margin: .5rem 0; line-height: 1.4; }
-    .msg.you { text-align: right; font-weight: 600; color: var(--brand); }
-    .msg.coach { background: #f3f4f6; padding: .5rem .75rem; border-radius: 12px; display: inline-block; max-width: 80%; }
-    form { display: flex; gap: .5rem; }
-    input, select { flex: 1; padding: .6rem; border-radius: 10px; border: 1px solid var(--line); font-size: 1rem; }
-    footer { text-align: center; color: #777; padding: 2rem 1rem; border-top: 1px solid var(--line); font-size: .9rem; }
-    @media (max-width:600px) {
-      nav ul { flex-wrap: wrap; justify-content: center; }
-      form { flex-direction: column; }
-    }
+    :root { --bg:#fafafa; --card:#fff; --ink:#111; --line:#e5e5e5; --accent:#4ade80; }
+    *{box-sizing:border-box;}
+    body{margin:0;font-family:Inter,system-ui,sans-serif;background:var(--bg);color:var(--ink);}
+    header{background:var(--card);border-bottom:1px solid var(--line);padding:1rem 2rem;position:sticky;top:0;z-index:10;}
+    h1,h2{margin:0 0 .5rem;}
+    main{max-width:900px;margin:2rem auto;padding:0 1rem;}
+    .hero{text-align:center;margin:3rem 0;}
+    .hero p{color:#555;max-width:600px;margin:0 auto 1.5rem;}
+    .btn{background:var(--ink);color:#fff;border:none;border-radius:10px;padding:.75rem 1.25rem;font-weight:600;cursor:pointer;}
+    .chat{border:1px solid var(--line);background:var(--card);border-radius:16px;padding:1rem;height:340px;overflow-y:auto;margin-bottom:1rem;}
+    .msg{margin:.5rem 0;line-height:1.4;}
+    .msg.you{text-align:right;font-weight:600;color:var(--ink);}
+    .msg.coach{background:#f3f4f6;padding:.5rem .75rem;border-radius:12px;display:inline-block;max-width:80%;}
+    form{display:flex;gap:.5rem;}
+    input,select{flex:1;padding:.6rem;border:1px solid var(--line);border-radius:10px;font-size:1rem;}
+    footer{text-align:center;color:#777;padding:2rem 1rem;border-top:1px solid var(--line);font-size:.9rem;}
+    #loading{display:none;text-align:center;color:#888;font-style:italic;}
+    @media(max-width:600px){form{flex-direction:column;}}
   </style>
 </head>
-
 <body>
-  <header>
-    <div class="header-inner">
-      <a href="#" class="brand">
-        <img src="assets/logo.svg" alt="">
-        <span>Nibble Mate</span>
-      </a>
-      <nav>
-        <ul>
-          <li><a href="#demo">Try It</a></li>
-          <li><a href="#about">About</a></li>
-        </ul>
-      </nav>
-    </div>
-  </header>
+<header>
+  <h1>🥗 Nibble Mate</h1>
+  <p style="margin:0;color:#555;">Offline AI Food Coach (no keys, no servers)</p>
+</header>
 
-  <main>
-    <section class="hero" id="about">
-      <h1>Welcome to Nibble Mate 🥗</h1>
-      <p>Your chill, judgment-free buddy that helps you make smarter, balanced food choices — no calorie counting, no guilt, just fun guidance.</p>
-      <a href="#demo" class="btn btn-primary">Chat with your Coach</a>
-    </section>
+<main>
+  <section class="hero">
+    <h2>Talk to your Nutrition Buddy 🤖</h2>
+    <p>Type what you ate and get an instant, AI-generated reply. All computation runs locally in your browser via
+      <strong>Transformers.js</strong> — no data leaves your device.</p>
+  </section>
 
-    <section id="demo" class="section">
-      <h2 style="text-align:center;">🥦 Try the Nibble Mate Coach</h2>
-      <p style="text-align:center; color:#555;">Type what you ate and get an instant, fun response — powered by simple logic (no internet or API needed!)</p>
-      <div class="chat" id="chat">
-        <div class="msg coach">Yo! I'm Nibble Mate 😎 Tell me what you ate today!</div>
-      </div>
+  <div class="chat" id="chat">
+    <div class="msg coach">Yo! I'm Nibble Mate 😎 Tell me what you ate today!</div>
+  </div>
+  <div id="loading">⏳ Loading AI model… first time can take ~20–60 MB</div>
 
-      <form id="form">
-        <input type="text" id="meal" placeholder="e.g., 2 slices of pizza and soda" required>
-        <select id="goal">
-          <option value="energize">Energize ⚡</option>
-          <option value="lean">Lean 💪</option>
-          <option value="build">Build 🏗️</option>
-        </select>
-        <button type="submit" class="btn btn-primary">Send</button>
-      </form>
-    </section>
-  </main>
+  <form id="form">
+    <input type="text" id="meal" placeholder="e.g., chicken salad with rice" required />
+    <select id="goal">
+      <option value="energize">Energize ⚡</option>
+      <option value="lean">Lean 💪</option>
+      <option value="build">Build 🏗️</option>
+    </select>
+    <button type="submit" class="btn">Send</button>
+  </form>
+</main>
 
-  <footer>
-    <p>Built with ❤️ by Nibble Mate Team · Works offline · No data leaves your browser</p>
-  </footer>
+<footer>
+  <p>Runs fully client-side · powered by <a href="https://github.com/xenova/transformers.js" target="_blank">Transformers.js</a></p>
+</footer>
 
-  <!-- fun local “AI” script -->
-  <script>
-    const chat = document.getElementById('chat');
-    const form = document.getElementById('form');
-    const mealInput = document.getElementById('meal');
-    const goalSelect = document.getElementById('goal');
+<!-- Transformers.js local AI (no API key) -->
+<script type="module">
+  import { pipeline } from "https://cdn.jsdelivr.net/npm/@xenova/transformers@2.6.0";
 
-    function pick(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+  const chat = document.getElementById("chat");
+  const form = document.getElementById("form");
+  const mealInput = document.getElementById("meal");
+  const goalSelect = document.getElementById("goal");
+  const loading = document.getElementById("loading");
 
-    const openings = [
-      "Good Job Brotato Chip!!",
-      "That sounds good!",
-      "Gimme some!",
-      "W pick bro!",
-      "W!"
-    ];
+  loading.style.display = "block";
+  let generator;
+  try {
+    generator = await pipeline("text-generation", "Xenova/distilgpt2");
+  } catch (e) {
+    console.error(e);
+  } finally {
+    loading.style.display = "none";
+  }
 
-    const encouragements = [
-      "You’re doing great — keep it up!",
-      "Small steps add up.",
-      "Consistency is key.",
-      "Goon on ya!",
-      "Keep going gngalang!"
-    ];
+  async function generateAdvice(meal, goal) {
+    if (!generator) return "Hmm, my brain didn’t load. Try refreshing the page?";
+    const prompt = `You are Nibble Mate, a kind, funny food coach.
+User's goal: ${goal}.
+User says they ate: "${meal}".
+Reply with two short, friendly sentences of advice or encouragement. Avoid calorie counts; be supportive.`;
+    const out = await generator(prompt, { max_new_tokens: 60 });
+    const text = out?.[0]?.generated_text || "";
+    return text.split(prompt)[1]?.trim() || text.trim() || "Nice! Keep it balanced and hydrate. You’ve got this.";
+  }
 
-    function localAI(meal, goal) {
-      meal = meal.toLowerCase();
-      const parts = [];
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const meal = mealInput.value.trim();
+    const goal = goalSelect.value;
+    if (!meal) return;
 
-      parts.push(pick(openings));
+    const you = document.createElement("div");
+    you.className = "msg you";
+    you.textContent = meal;
+    chat.appendChild(you);
+    chat.scrollTop = chat.scrollHeight;
+    mealInput.value = "";
 
-      if (/(chicken|egg|tofu|fish|beans|yogurt|paneer|lentil|nuts)/.test(meal))
-        parts.push("Nice protein source — helps you stay full and recover.");
-      else
-        parts.push("Consider adding some protein like eggs, yogurt, or beans to stay fuller longer.");
+    const coach = document.createElement("div");
+    coach.className = "msg coach";
+    coach.textContent = "Thinking 🤔…";
+    chat.appendChild(coach);
+    chat.scrollTop = chat.scrollHeight;
 
-      if (/(veg|salad|fruit|apple|banana|oats|quinoa|broccoli|spinach|rice)/.test(meal))
-        parts.push("Good fiber and plants — steady energy incoming!");
-      else
-        parts.push("A fruit or veggie would boost fiber and balance that out.");
-
-      if (/(cake|soda|cola|dessert|candy|cookie|ice cream|juice)/.test(meal))
-        parts.push("A little sweet treat is fine — maybe pair it with some protein or fiber.");
-
-      if (goal === "energize") parts.push("⚡ Stay hydrated and balanced for steady energy!");
-      if (goal === "lean") parts.push("💪 Go lean: add veggies, skip refined carbs.");
-      if (goal === "build") parts.push("🏗️ Stack that muscle: aim for 25–35 g protein!");
-
-      parts.push(pick(encouragements));
-      return parts.join(" ");
+    try {
+      const reply = await generateAdvice(meal, goal);
+      coach.textContent = reply || "Nice pick — add some protein/fiber and hydrate!";
+    } catch (err) {
+      console.error(err);
+      coach.textContent = "Model not ready yet or low memory 😅 Try again in a moment.";
     }
+    chat.scrollTop = chat.scrollHeight;
+  });
+</script>
 
-    form.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const meal = mealInput.value.trim();
-      const goal = goalSelect.value;
-      if (!meal) return;
-
-      const you = document.createElement('div');
-      you.className = 'msg you';
-      you.textContent = meal;
-      chat.appendChild(you);
-
-      const coach = document.createElement('div');
-      coach.className = 'msg coach';
-      coach.textContent = localAI(meal, goal);
-      chat.appendChild(coach);
-
-      chat.scrollTop = chat.scrollHeight;
-      mealInput.value = '';
-    });
-  </script>
+<!-- Jotform Agent embed (added as requested) -->
+<script src="https://cdn.jotfor.ms/agent/embedjs/019a45e9f6b073cab55366256e8f3a4de392/embed.js"></script>
 </body>
 </html>
