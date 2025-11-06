@@ -3,43 +3,50 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Nibble Mate</title>
+  <title>NibblMate</title>
   <meta name="description" content="Friendly, judgment-free nutrition buddy." />
   <style>
-    /* minimal, readable */
     :root { --bg:#0f1117; --ink:#e5e7eb; --muted:#9aa4b2; --line:#1f2430; --accent:#7cfc98; }
-    * { box-sizing: border-box; }
-    body { margin:0; font-family: system-ui, sans-serif; background: var(--bg); color: var(--ink); }
-    .wrap { max-width: 800px; margin: 0 auto; padding: 24px; }
-    header { padding: 16px 0; border-bottom: 1px solid var(--line); }
-    h1 { margin: 0 0 8px; font-size: 1.6rem; }
-    p { color: var(--muted); margin: 0.25rem 0 0; }
-    main { padding: 24px 0; }
-    section { background: #121826; border: 1px solid var(--line); border-radius: 12px; padding: 16px; }
-    footer { border-top: 1px solid var(--line); padding: 16px 0; color: var(--muted); font-size: .9rem; text-align: center; }
+    * { box-sizing:border-box; }
+    body { margin:0; font-family:system-ui, sans-serif; background:var(--bg); color:var(--ink); }
+    .wrap { max-width:800px; margin:0 auto; padding:24px; }
+    header { padding:16px 0; border-bottom:1px solid var(--line); }
+    h1 { margin:0 0 8px; font-size:1.6rem; }
+    p { color:var(--muted); margin:.25rem 0 0; }
+    main { padding:24px 0; }
+    section { background:#121826; border:1px solid var(--line); border-radius:12px; padding:16px; }
+    footer { border-top:1px solid var(--line); padding:16px 0; color:var(--muted); font-size:.9rem; text-align:center; }
+
+    /* Ensure the chat bubble sits above cookie banners/nav etc. */
+    .relevanceai-chat-bubble-app { z-index: 2147483000 !important; }
   </style>
 </head>
 <body>
   <div class="wrap">
     <header>
-      <h1>Nibble Mate</h1>
+      <h1>NibblMate</h1>
       <p>Friendly nutrition, without the pressure.</p>
     </header>
 
     <main>
       <section>
         <h2 style="margin:0 0 .5rem;">Need help?</h2>
-        <p>Use the floating chat bubble in the corner to talk with our assistant.</p>
+        <p>Talk to NibblMate</p>
       </section>
     </main>
 
     <footer>
-      Built with ❤️ · Nibble Mate
+      Built with ❤️ · NibblMate
     </footer>
   </div>
 
-  <!-- Jotform AI widget (only chatbot on the site) -->
-  <script src="https://cdn.jotfor.ms/agent/embedjs/019a45e9f6b073cab55366256e8f3a4de392/embed.js"></script>
-  <noscript>Please enable JavaScript to use the chat widget.</noscript>
+<!-- yoo ts thing is the script for the relevance ai thingymajigy -->
+  <script
+    defer
+    src="https://app.relevanceai.com/embed/chat-bubble.js"
+    data-share-id="bcbe5a/f18e9281-1765-45ed-9594-90a4520227f6/5744c34a-cf95-43c4-bf98-f7eb9631fa64"
+    data-share-styles='primary_color=#685FFF&bubble_style=agent&bubble_icon=pd/chat&input_placeholder_text=Message+NibblMate%21&hide_file_uploads=false&hide_conversation_list=false&hide_tool_steps=false&hide_logo=false&hide_description=true&starting_message_prompts=["YOOO"]'>
+  </script>
+  <noscript>You gotta use javascript or ts isnt gonna work cuh.</noscript>
 </body>
 </html>
